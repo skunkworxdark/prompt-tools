@@ -1,5 +1,5 @@
 # Prompt-tools-nodes
-A set of InvokeAI nodes that add general prompt manipulation tools.
+A set of InvokeAI nodes that add general prompt manipulation tools.  These where written to accompany the PromptsFromFile node and other prompt generation nodes.
 
 Currently contains 4 nodes:- PromptJoin, PromptReplace, PromptSpiltNeg and PromptsToFile
 

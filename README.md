@@ -10,6 +10,6 @@ Currently contains 4 nodes:- PromptJoin, PromptReplace, PromptSpiltNeg and Promp
 
 If you want to use this node py file place it in the folder ".venv\Lib\site-packages\invokeai\app\invocations". Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. 
 
-The main integrated file in my GitHub Repo for this is :- [prompts.py](https://github.com/skunkworxdark/InvokeAI/blob/PromtsFromFile-SupportNodes/invokeai/app/invocations/prompt.py)
-The Pull Request for inclusion in the InvokeAI main is :-  [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964)
-The discord link for discussion is :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803)
+The main integrated file in my GitHub Repo for this is :- [prompts.py](https://github.com/skunkworxdark/InvokeAI/blob/PromtsFromFile-SupportNodes/invokeai/app/invocations/prompt.py) .
+The Pull Request for inclusion in the InvokeAI main is :-  [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964) .
+The discord link for discussion is :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803) .

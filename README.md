@@ -8,4 +8,7 @@ Currently contains 4 nodes:- PromptJoin, PromptReplace, PromptSpiltNeg and Promp
 3. PromptSplitNeg - splits a prompt into positive and negative using the old V2 method of [] for negative.
 4. PromptToFile - saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.
 
-If you want to use this node py file place it in the folder .venv\Lib\site-packages\invokeai\app\invocations. Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. 
+If you want to use this node py file place it in the folder ".venv\Lib\site-packages\invokeai\app\invocations". Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. 
+
+The main integrated file in my GitHub Repo for this is :- [prompts.py](https://github.com/skunkworxdark/InvokeAI/blob/PromtsFromFile-SupportNodes/invokeai/app/invocations/prompt.py)
+The PR for inclusion in the main is :-  [PullRequest](https://github.com/invoke-ai/InvokeAI/pull/3964)

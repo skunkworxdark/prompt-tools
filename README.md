@@ -7,8 +7,8 @@ Currently contains 4 nodes:- PromptJoin, PromptReplace, PromptSpiltNeg and Promp
 2. PromptReplace - performs a search and replace on a prompt. With the option of using regex.
 3. PromptSplitNeg - splits a prompt into positive and negative using the old V2 method of [] for negative.
 4. PromptToFile - saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.
-5. PTFieldsCollect - converts generation fields into Json format string that can be passed to Prompt to file
-6. PTFieldsExpand - Takes a json striong and converts it to individual generation parameters
+5. PTFieldsCollect - Converts image generation fields into a Json format string that can be passed to Prompt to file. 
+6. PTFieldsExpand - Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node.
 7. PromptJoinThree -  Joins 3 prompt together.
 
 If you want to use this node py file place it in the folder ".venv\Lib\site-packages\invokeai\app\invocations". Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. 

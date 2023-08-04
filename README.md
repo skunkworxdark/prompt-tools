@@ -12,7 +12,7 @@ A set of InvokeAI nodes that add general prompt manipulation tools.  These where
 Both of the PTfields nodes should be easy to change to add or remove fields if the ones provided are not correct.
 
 
-If you want to use this node py file place it in the folder ".venv\Lib\site-packages\invokeai\app\invocations". Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. 
+If you want to use this node py file place it in the folder `".venv\Lib\site-packages\invokeai\app\invocations"`. Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. Hoowever this is looking less likley the more nodes I add. 
 
 The main integrated file in my GitHub Repo for this is :- [prompts.py](https://github.com/skunkworxdark/InvokeAI/blob/PromtsFromFile-SupportNodes/invokeai/app/invocations/prompt.py) .
 

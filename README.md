@@ -8,6 +8,8 @@ A set of InvokeAI nodes that add general prompt manipulation tools.  These where
 5. PTFieldsCollect - Converts image generation fields into a Json format string that can be passed to Prompt to file. 
 6. PTFieldsExpand - Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node.
 7. PromptJoinThree -  Joins 3 prompt together.
+8. PromptStrength - This take a string and float and outputs another string in the format of (string)strength like the weighted format of compel. 
+9. PromptStrengthCombine - This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.
 
 Both of the PTfields nodes should be easy to change to add or remove fields if the ones provided are not correct.
 
@@ -69,4 +71,22 @@ Takes a json string and converts it to individual generation parameters
 Joins 3 prompts together. Useful for surrounding things
 
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/d4fa05e1-ef18-44e2-88fd-bbc0ae134e4e)
+
+## PromptStrength and PromptStrengthsCombine
+`PromptStrength` converts a prompt and stregth into compel style weighted string. Multiples of these then can be fed into a collect node to create a collection of them and the used with the 'PromptStrengthsCombine` node
+```
+e.g.
+prompt: A blues sphere
+strength: 1.2
+output (A blue sphere)1.2
+```
+
+`PromptStengthsCombine` converts a collection of PromptStrengths into a .and or .blend style string
+```
+e.g.
+input:["(cow)0.5","(Field)1.2","(stream)0.5"]
+ouptput:("cow","Field","stream").and(0.5,1.2,0.5)
+```
+
+![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/ce9120dd-b3fa-470e-ac29-b9acfb6e240f)
 

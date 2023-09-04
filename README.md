@@ -1,15 +1,17 @@
 # Prompt-tools-nodes
 A set of InvokeAI nodes that add general prompt manipulation tools.  These where written to accompany the PromptsFromFile node and other prompt generation nodes.
 
-1. PromptJoin - Joins to prompts into one.
-2. PromptReplace - performs a search and replace on a prompt. With the option of using regex.
-3. PromptSplitNeg - splits a prompt into positive and negative using the old V2 method of [] for negative.
-4. PromptToFile - saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.
-5. PTFieldsCollect - Converts image generation fields into a Json format string that can be passed to Prompt to file. 
-6. PTFieldsExpand - Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node.
-7. PromptJoinThree -  Joins 3 prompt together.
-8. PromptStrength - This take a string and float and outputs another string in the format of (string)strength like the weighted format of compel. 
-9. PromptStrengthCombine - This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.
+|Node|Description|
+|---|---|
+|`PromptJoin`|Joins to prompts into one.|
+|`PromptReplace`|performs a search and replace on a prompt. With the option of using regex.|
+|`PromptSplitNeg`|splits a prompt into positive and negative using the old V2 method of [] for negative.|
+|`PromptToFile`|saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.|
+|`PTFieldsCollect`|Converts image generation fields into a Json format string that can be passed to Prompt to file.|
+|`PTFieldsExpand`|Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node|
+|`PromptJoinThree`|Joins 3 prompt together.|
+|`PromptStrength`|This take a string and float and outputs another string in the format of (string)strength like the weighted format of compel. |
+|`PromptStrengthCombine`|This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.|
 
 Both of the PTfields nodes should be easy to change to add or remove fields if the ones provided are not correct.
 

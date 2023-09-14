@@ -1,26 +1,29 @@
 # Prompt-tools-nodes
-A set of InvokeAI nodes that add general prompt manipulation tools.  These where written to accompany the PromptsFromFile node and other prompt generation nodes.
+A set of InvokeAI nodes that add general prompt (string) manipulation tools.  These where written to accompany the PromptsFromFile node and other prompt generation nodes.
 
 |Node|Description|
 |---|---|
-|`PromptJoin`|Joins to prompts into one.|
-|`PromptJoinThree`|Joins 3 prompt together.|
-|`PromptReplace`|performs a search and replace on a prompt. With the option of using regex.|
-|`PromptSplitNeg`|splits a prompt into positive and negative using the old V2 method of [] for negative.|
-|`PromptToFile`|saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.|
-|`PTFieldsCollect`|Converts image generation fields into a Json format string that can be passed to Prompt to file.|
-|`PTFieldsExpand`|Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node|
-|`PromptStrength`|This take a string and float and outputs another string in the format of (string)strength like the weighted format of compel. |
-|`PromptStrengthCombine`|This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.|
+|*`Prompt Join`|Joins two prompts into one.|
+|*`Prompt Join Three`|Joins 3 prompt together.|
+|*`Prompt Replace`|Performs a search and replace on a prompt. With the option of using regex.|
+|*`Prompt Split Neg`|Splits a prompt into positive and negative using the old V2 method of [] for negative.|
+|`Prompt To File`|saves a prompt or collection of prompts to a file. one per line. There is an append/overwrite option.|
+|`PT Fields Collect`|Converts image generation fields into a Json format string that can be passed to Prompt to file.|
+|`PT Fields Expand`|Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node|
+|`Prompt Strength`|Takes a string and float and outputs another string in the format of (string)strength like the weighted format of compel. |
+|`Prompt Strength Combine`|This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.|
+
+***=** The following Nodes are due for inclusion into a future version of Invoke (as part of [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964)) and at that time they will be removed from this set of tools as they will be redundant.  However as the nodes will be renamed in core there will be no classes if you decide to keep them.<br>
+`Prompt Join` will become `String Join`<br>
+`Prompt Join Three` will become `String Join Three`<br>
+`Prompt Replace` will become `String Replace`<br>
+`Prompt Split Neg` will become `String Split Neg`<br>
+Additionally there will be a New generic `String Split` node<br>
 
 ## Usage
-If you want to use this node py file place it in the folder `".venv\Lib\site-packages\invokeai\app\invocations"`. Note: if these nodes get added to main then the py file will need to be removed from this folder to prevent a clash. Hoowever this is looking less likley the more nodes I add. 
+If you want to use these nodes then you will have to place the [prompt_tools.py](prompt_tools.py) file in the folder `".venv\Lib\site-packages\invokeai\app\invocations"`. 
 
-## Links
-The main integrated file in my GitHub Repo for this is :- [prompts.py](https://github.com/skunkworxdark/InvokeAI/blob/PromtsFromFile-SupportNodes/invokeai/app/invocations/prompt.py) .
-
-The Pull Request for inclusion in the InvokeAI main is :-  [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964) .
-
+## Discord Link
 The discord link for discussion is :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803) .
 
 ## ToDo
@@ -48,7 +51,7 @@ This takes 4 inputs (a prompt, a search string,  a replace string and bool for R
 
 This can be used to just replace or remove terms from prompts. But due to its simplicity there are many many use cases. but comes into its own with nodes that either generate prompts or load them from other sources.
 
-One such use case I have in mind is the PromptsFromFile would contain multiple template like prompts (e.g "photo of XXXXXX , Nikon", "drawing of XXXXXX in crayon", "Wikihow of XXXXXX, in a cartoo style") with a fixed place holder ( "XXXXXX") that would be replaced for each line of the file with whatever you put tin the replace field. This way you could change the subject of each prompt and try it against multiple templates.
+One such use case I have in mind is the PromptsFromFile would contain multiple template like prompts (e.g "photo of XXXXXX , Nikon", "drawing of XXXXXX in crayon", "Wikihow of XXXXXX, in a cartoon style") with a fixed place holder ( "XXXXXX") that would be replaced for each line of the file with whatever you put tin the replace field. This way you could change the subject of each prompt and try it against multiple templates.
 
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/3479f673-09c5-4053-a8c9-e9e4ff4bc42e)
 
@@ -79,19 +82,19 @@ Note: Both of the PTfields nodes should be easy to change to add or remove field
 
 
 ## PromptStrength and PromptStrengthsCombine
-`PromptStrength` - converts a prompt and stregth into compel style weighted string. Multiples of these then can be fed into a collect node to create a collection of them and the used with the 'PromptStrengthsCombine` node
+`PromptStrength` - converts a prompt and strength into compel style weighted string. Multiples of these then can be fed into a collect node to create a collection of them and the used with the 'PromptStrengthsCombine` node
 ```
 e.g.
 prompt: A blues sphere
 strength: 1.2
-output (A blue sphere)1.2
+output: (A blue sphere)1.2
 ```
 
-`PromptStengthsCombine` - converts a collection of PromptStrengths into a .and or .blend style string
+`PromptStrengthsCombine` - converts a collection of PromptStrengths into a .and or .blend style string
 ```
 e.g.
-input:["(cow)0.5","(Field)1.2","(stream)0.5"]
-ouptput:("cow","Field","stream").and(0.5,1.2,0.5)
+input: ["(cow)0.5","(Field)1.2","(stream)0.5"]
+output: ("cow","Field","stream").and(0.5,1.2,0.5)
 ```
 
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/ce9120dd-b3fa-470e-ac29-b9acfb6e240f)

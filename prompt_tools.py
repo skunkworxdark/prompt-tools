@@ -4,9 +4,12 @@ import json
 import re
 from typing import Literal, Optional, Union
 
+from pydantic import BaseModel
+
 from invokeai.app.invocations.baseinvocation import (
     BaseInvocation,
     BaseInvocationOutput,
+    FieldDescriptions,
     Input,
     InputField,
     InvocationContext,
@@ -16,8 +19,8 @@ from invokeai.app.invocations.baseinvocation import (
     invocation,
     invocation_output,
 )
+from invokeai.app.invocations.latent import SAMPLER_NAME_VALUES
 from invokeai.app.invocations.primitives import StringOutput
-from pydantic import BaseModel
 
 
 @invocation_output("prompt_to_file_output")
@@ -37,17 +40,17 @@ class PromptsToFileInvocation(BaseInvocation):
 
     file_path: str = InputField(
         description="Path to prompt text file",
-        ui_order=0,
-    )
-    prompts: Union[str, list[str], None] = InputField(
-        default=None,
-        description="Prompt or collection of prompts to write",
         ui_order=1,
+    )
+    prompts: Union[str, list[str]] = InputField(
+        description="Prompt or collection of prompts to write",
+        ui_order=2,
+        input=Input.Connection,
     )
     append: bool = InputField(
         default=True,
         description="Append or overwrite file",
-        ui_order=2,
+        ui_order=3,
     )
 
     def invoke(self, context: InvocationContext) -> PromptsToFileInvocationOutput:
@@ -138,9 +141,7 @@ class PromptJoinInvocation(BaseInvocation):
     )
 
     def invoke(self, context: InvocationContext) -> StringOutput:
-        return StringOutput(
-            value=((self.prompt_left or "") + (self.prompt_right or ""))
-        )
+        return StringOutput(value=((self.prompt_left or "") + (self.prompt_right or "")))
 
 
 @invocation(
@@ -153,24 +154,12 @@ class PromptJoinInvocation(BaseInvocation):
 class PromptJoinThreeInvocation(BaseInvocation):
     """Joins prompt left to prompt middle to prompt right"""
 
-    prompt_left: str = InputField(
-        default="", description="Prompt Left", ui_component=UIComponent.Textarea
-    )
-    prompt_middle: str = InputField(
-        default="", description="Prompt Middle", ui_component=UIComponent.Textarea
-    )
-    prompt_right: str = InputField(
-        default="", description="Prompt Right", ui_component=UIComponent.Textarea
-    )
+    prompt_left: str = InputField(default="", description="Prompt Left", ui_component=UIComponent.Textarea)
+    prompt_middle: str = InputField(default="", description="Prompt Middle", ui_component=UIComponent.Textarea)
+    prompt_right: str = InputField(default="", description="Prompt Right", ui_component=UIComponent.Textarea)
 
     def invoke(self, context: InvocationContext) -> StringOutput:
-        return StringOutput(
-            value=(
-                (self.prompt_left or "")
-                + (self.prompt_middle or "")
-                + (self.prompt_right or "")
-            )
-        )
+        return StringOutput(value=((self.prompt_left or "") + (self.prompt_middle or "") + (self.prompt_right or "")))
 
 
 @invocation(
@@ -226,6 +215,9 @@ class PTFields(BaseModel):
     height: int
     steps: int
     cfg_scale: float
+    denoising_start: float
+    denoising_end: float
+    scheduler: SAMPLER_NAME_VALUES
 
 
 @invocation_output("pt_fields_collect_output")
@@ -258,19 +250,29 @@ class PTFieldsCollectInvocation(BaseInvocation):
         description="The negative prompt parameter",
     )
     seed: Optional[int] = InputField(
-        description="The seed used for noise generation",
+        description=FieldDescriptions.seed,
     )
     width: Optional[int] = InputField(
-        description="The width parameter",
+        description=FieldDescriptions.width,
     )
     height: Optional[int] = InputField(
-        description="The height parameter",
+        description=FieldDescriptions.height,
     )
     steps: Optional[int] = InputField(
-        description="The number of steps used for inference",
+        description=FieldDescriptions.steps,
     )
     cfg_scale: Optional[float] = InputField(
-        description="The classifier-free guidance scale parameter",
+        description=FieldDescriptions.cfg_scale,
+    )
+    denoising_start: Optional[float] = InputField(
+        description=FieldDescriptions.denoising_start,
+    )
+    denoising_end: Optional[float] = InputField(
+        description=FieldDescriptions.denoising_end,
+    )
+    scheduler: Optional[SAMPLER_NAME_VALUES] = InputField(
+        description=FieldDescriptions.scheduler,
+        ui_type=UIType.Scheduler,
     )
 
     def invoke(self, context: InvocationContext) -> PTFieldsCollectOutput:
@@ -286,6 +288,9 @@ class PTFieldsCollectInvocation(BaseInvocation):
                     height=self.height,
                     steps=self.steps,
                     cfg_scale=self.cfg_scale,
+                    denoising_start=self.denoising_start,
+                    denoising_end=self.denoising_end,
+                    scheduler=self.scheduler,
                 ).dict()
             )
         )
@@ -297,31 +302,41 @@ class PTFieldsExpandOutput(BaseInvocationOutput):
     """Expand Prompt Tools Fields for an image generated in InvokeAI."""
 
     positive_prompt: str = OutputField(
-        description="The positive prompt parameter",
+        description="The positive prompt",
     )
     positive_style_prompt: str = OutputField(
-        description="The positive style prompt parameter",
+        description="The positive style prompt",
     )
     negative_prompt: str = OutputField(
-        description="The negative prompt parameter",
+        description="The negative prompt",
     )
     negative_style_prompt: str = OutputField(
-        description="The negative prompt parameter",
+        description="The negative prompt",
     )
     seed: int = OutputField(
-        description="The seed used for noise generation",
+        description=FieldDescriptions.seed,
     )
     width: int = OutputField(
-        description="The width parameter",
+        description=FieldDescriptions.width,
     )
     height: int = OutputField(
-        description="The height parameter",
+        description=FieldDescriptions.height,
     )
     steps: int = OutputField(
-        description="The number of steps used for inference",
+        description=FieldDescriptions.steps,
     )
     cfg_scale: float = OutputField(
-        description="The classifier-free guidance scale parameter",
+        description=FieldDescriptions.cfg_scale,
+    )
+    denoising_start: float = OutputField(
+        description=FieldDescriptions.denoising_start,
+    )
+    denoising_end: float = OutputField(
+        description=FieldDescriptions.denoising_end,
+    )
+    scheduler: SAMPLER_NAME_VALUES = OutputField(
+        description=FieldDescriptions.scheduler,
+        ui_type=UIType.Scheduler,
     )
 
 
@@ -348,11 +363,14 @@ class PTFieldsExpandInvocation(BaseInvocation):
             positive_style_prompt=fields.get("positive_style_prompt"),
             negative_prompt=fields.get("negative_prompt"),
             negative_style_prompt=fields.get("negative_style_prompt"),
+            seed=fields.get("seed"),
             width=fields.get("width"),
             height=fields.get("height"),
-            seed=fields.get("seed"),
-            cfg_scale=fields.get("cfg_scale"),
             steps=fields.get("steps"),
+            cfg_scale=fields.get("cfg_scale"),
+            denoising_start=fields.get("denoising_start"),
+            denoising_end=fields.get("denoising_end"),
+            scheduler=fields.get("scheduler"),
         )
 
 
@@ -409,6 +427,4 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
             if len(string) > 0:
                 strings.append(f'"{string}"')
                 numbers.append(number)
-        return StringOutput(
-            value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})'
-        )
+        return StringOutput(value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})')

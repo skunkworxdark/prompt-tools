@@ -39,7 +39,7 @@ The discord link for discussion is :- [Prompt-Tools](https://discord.com/channel
 
 
 ## PromptJoin and PromptJoinThree
-`PromptJoin` - This would take two prompts and join them into one. The use case I have in mind is that you could add to the beginning or end of individual split prompts.  There are manu more use cases for such a simple node. I thought about calling it PromptConcatenate but feel it is a bit to programming orientated.
+`PromptJoin` - This would take two prompts and join them into one. The use case I have in mind is that you could add to the beginning or end of individual split prompts.  There are many more use cases for such a simple node. I thought about calling it PromptConcatenate but feel it is a bit to programming orientated.
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/2a4957c7-e703-444f-b1bd-15c1b91393a7)
 
 `PromptJoinThree` - Joins 3 prompts together. Useful for surrounding things

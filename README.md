@@ -13,7 +13,7 @@ A set of InvokeAI nodes that add general prompt (string) manipulation tools.  Th
 |`Prompt Strength`|Takes a string and float and outputs another string in the format of (string)strength like the weighted format of compel. |
 |`Prompt Strength Combine`|This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.|
 
-***=** The following Nodes are due for inclusion into a future version of Invoke (as part of [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964)) and at that time they will be removed from this set of tools as they will be redundant.  However as the nodes will be renamed in core there will be no classes if you decide to keep them.<br>
+*= The following Nodes are now included in v3.2 of Invoke (as part of [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964)). Depreciated messages have been added to the descriptions and in a future release they will be removed from this set of tools. However in the mean time as the nodes will be renamed in core there will be no name clashes if you decide to keep them.<br>
 `Prompt Join` will become `String Join`<br>
 `Prompt Join Three` will become `String Join Three`<br>
 `Prompt Replace` will become `String Replace`<br>
@@ -22,6 +22,8 @@ Additionally there will be a New generic `String Split` node<br>
 
 ## Usage
 If you want to use these nodes then you will have to place the [prompt_tools.py](prompt_tools.py) file in the folder `".venv\Lib\site-packages\invokeai\app\invocations"`. 
+
+For the near future there is a backup copy of the 3.1.1 version before the move of some of the tools to core [prompt_tools_311.py](prompt_tools_311.py).  **Warning** DO NOT use both versions at once as it will cause problems. 
 
 ## Discord Link
 The discord link for discussion is :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803) .

@@ -84,7 +84,8 @@ class PromptPosNegOutput(BaseInvocationOutput):
     version="1.0.0",
 )
 class PromptSplitNegInvocation(BaseInvocation):
-    """Splits prompt into two prompts, inside [] goes into negative prompt everything else goes into positive prompt. Each [ and ] character is replaced with a space"""
+    """Splits prompt into two prompts, inside [] goes into negative prompt everything else goes into positive prompt. Each [ and ] character is replaced with a space
+    Deprecated use core String Split Negative"""
 
     prompt: str = InputField(
         default="",
@@ -127,7 +128,8 @@ class PromptSplitNegInvocation(BaseInvocation):
     version="1.0.0",
 )
 class PromptJoinInvocation(BaseInvocation):
-    """Joins prompt left to prompt right"""
+    """Joins prompt left to prompt right
+    Deprecated use core String Join"""
 
     prompt_left: str = InputField(
         default="",
@@ -152,7 +154,8 @@ class PromptJoinInvocation(BaseInvocation):
     version="1.0.0",
 )
 class PromptJoinThreeInvocation(BaseInvocation):
-    """Joins prompt left to prompt middle to prompt right"""
+    """Joins prompt left to prompt middle to prompt right
+    Deprecated use core String Join Three"""
 
     prompt_left: str = InputField(default="", description="Prompt Left", ui_component=UIComponent.Textarea)
     prompt_middle: str = InputField(default="", description="Prompt Middle", ui_component=UIComponent.Textarea)
@@ -170,7 +173,8 @@ class PromptJoinThreeInvocation(BaseInvocation):
     version="1.0.0",
 )
 class PromptReplaceInvocation(BaseInvocation):
-    """Replaces the search string with the replace string in the prompt"""
+    """Replaces the search string with the replace string in the prompt
+    Deprecated use core String Replace"""
 
     prompt: str = InputField(
         default="",

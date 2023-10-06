@@ -1,6 +1,7 @@
 # 2023 skunkworxdark (https://github.com/skunkworxdark)
 
 import json
+import random
 import re
 from typing import Literal, Optional, Union
 
@@ -40,17 +41,14 @@ class PromptsToFileInvocation(BaseInvocation):
 
     file_path: str = InputField(
         description="Path to prompt text file",
-        ui_order=1,
     )
     prompts: Union[str, list[str]] = InputField(
         description="Prompt or collection of prompts to write",
-        ui_order=2,
         input=Input.Connection,
     )
     append: bool = InputField(
         default=True,
         description="Append or overwrite file",
-        ui_order=3,
     )
 
     def invoke(self, context: InvocationContext) -> PromptsToFileInvocationOutput:
@@ -62,149 +60,6 @@ class PromptsToFileInvocation(BaseInvocation):
                 f.write((self.prompts or "") + "\n")
 
         return PromptsToFileInvocationOutput()
-
-
-@invocation_output("prompt_pos_neg_output")
-class PromptPosNegOutput(BaseInvocationOutput):
-    """Base class for invocations that output a positive and negative prompt"""
-
-    positive_prompt: str = OutputField(
-        description="Positive prompt",
-    )
-    negative_prompt: str = OutputField(
-        description="Negative prompt",
-    )
-
-
-@invocation(
-    "prompt_split_neg",
-    title="Prompt Split Negative",
-    tags=["prompt", "split", "negative"],
-    category="prompt",
-    version="1.0.0",
-)
-class PromptSplitNegInvocation(BaseInvocation):
-    """Splits prompt into two prompts, inside [] goes into negative prompt everything else goes into positive prompt. Each [ and ] character is replaced with a space
-    Deprecated use core String Split Negative"""
-
-    prompt: str = InputField(
-        default="",
-        description="Prompt to split",
-        ui_component=UIComponent.Textarea,
-    )
-
-    def invoke(self, context: InvocationContext) -> PromptPosNegOutput:
-        p_prompt = ""
-        n_prompt = ""
-        brackets_depth = 0
-        escaped = False
-
-        for char in self.prompt or "":
-            if char == "[" and not escaped:
-                n_prompt += " "
-                brackets_depth += 1
-            elif char == "]" and not escaped:
-                brackets_depth -= 1
-                char = " "
-            elif brackets_depth > 0:
-                n_prompt += char
-            else:
-                p_prompt += char
-
-            # keep track of the escape char but only if it isn't escaped already
-            if char == "\\" and not escaped:
-                escaped = True
-            else:
-                escaped = False
-
-        return PromptPosNegOutput(positive_prompt=p_prompt, negative_prompt=n_prompt)
-
-
-@invocation(
-    "prompt_join",
-    title="Prompt Join",
-    tags=["prompt", "join"],
-    category="prompt",
-    version="1.0.0",
-)
-class PromptJoinInvocation(BaseInvocation):
-    """Joins prompt left to prompt right
-    Deprecated use core String Join"""
-
-    prompt_left: str = InputField(
-        default="",
-        description="Prompt Left",
-        ui_component=UIComponent.Textarea,
-    )
-    prompt_right: str = InputField(
-        default="",
-        description="Prompt Right",
-        ui_component=UIComponent.Textarea,
-    )
-
-    def invoke(self, context: InvocationContext) -> StringOutput:
-        return StringOutput(value=((self.prompt_left or "") + (self.prompt_right or "")))
-
-
-@invocation(
-    "prompt_join_three",
-    title="Prompt Join Three",
-    tags=["prompt", "join"],
-    category="prompt",
-    version="1.0.0",
-)
-class PromptJoinThreeInvocation(BaseInvocation):
-    """Joins prompt left to prompt middle to prompt right
-    Deprecated use core String Join Three"""
-
-    prompt_left: str = InputField(default="", description="Prompt Left", ui_component=UIComponent.Textarea)
-    prompt_middle: str = InputField(default="", description="Prompt Middle", ui_component=UIComponent.Textarea)
-    prompt_right: str = InputField(default="", description="Prompt Right", ui_component=UIComponent.Textarea)
-
-    def invoke(self, context: InvocationContext) -> StringOutput:
-        return StringOutput(value=((self.prompt_left or "") + (self.prompt_middle or "") + (self.prompt_right or "")))
-
-
-@invocation(
-    "prompt_replace",
-    title="Prompt Replace",
-    tags=["prompt", "replace", "regex"],
-    category="prompt",
-    version="1.0.0",
-)
-class PromptReplaceInvocation(BaseInvocation):
-    """Replaces the search string with the replace string in the prompt
-    Deprecated use core String Replace"""
-
-    prompt: str = InputField(
-        default="",
-        description="Prompt to work on",
-        ui_component=UIComponent.Textarea,
-    )
-    search_string: str = InputField(
-        default="",
-        description="String to search for",
-        ui_component=UIComponent.Textarea,
-    )
-    replace_string: str = InputField(
-        default="",
-        description="String to replace the search",
-        ui_component=UIComponent.Textarea,
-    )
-    use_regex: bool = InputField(
-        default=False,
-        description="Use search string as a regex expression (non regex is case insensitive)",
-    )
-
-    def invoke(self, context: InvocationContext) -> StringOutput:
-        pattern = self.search_string or ""
-        new_prompt = self.prompt or ""
-        if len(pattern) > 0:
-            if not self.use_regex:
-                # None regex so make case insensitive
-                pattern = "(?i)" + re.escape(pattern)
-            new_prompt = re.sub(pattern, (self.replace_string or ""), new_prompt)
-        return StringOutput(value=new_prompt)
 
 
 class PTFields(BaseModel):
@@ -432,3 +287,36 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
                 strings.append(f'"{string}"')
                 numbers.append(number)
         return StringOutput(value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})')
+
+
+@invocation(
+    "csv_to_index_string",
+    title="CSV To Index String",
+    tags=["random", "string", "csv"],
+    category="util",
+    version="1.0.0",
+    use_cache=False,
+)
+class CSVToIndexStringInvocation(BaseInvocation):
+    """CSVToIndexString converts a CSV to a String at index with a random option"""
+
+    csv: str = InputField(
+        default="",
+        description="csv string",
+        ui_component=UIComponent.Textarea,
+    )
+    random: bool = InputField(
+        default=True,
+        description="Random Index?",
+    )
+    index: int = InputField(
+        default=0, description="zero based index into CSV array (note index will wrap around if out of bounds)"
+    )
+
+    def invoke(self, context: InvocationContext) -> StringOutput:
+        strings = self.csv.split(",")
+        if self.random:
+            output = random.choice(strings)
+        else:
+            output = strings[self.index % len(strings)]
+        return StringOutput(value=output)

@@ -8,7 +8,7 @@ A set of InvokeAI nodes that add general prompt (string) manipulation tools.  Th
 |`PT Fields Expand`|Takes Json string and converts it to individual generation parameters This can be fed from the Prompts to file node|
 |`Prompt Strength`|Takes a string and float and outputs another string in the format of (string)strength like the weighted format of compel. |
 |`Prompt Strength Combine`|This takes a collection of prompt strength strings and outputs a string in the .and() or .blend() format that can be fed into a proper prompt node.|
-|`CSV To Random String`|Takes a CSV and outputs a random string|
+|`CSV To Index String`|Takes a CSV an index and outputs a random string. Includes a Random index option|
 
 The following Nodes are now included in v3.2 of Invoke (as part of [PR-#3964](https://github.com/invoke-ai/InvokeAI/pull/3964)). These have now been removed from this set of tools.<br>
 `Prompt Join` has become `String Join`<br>

@@ -19,7 +19,6 @@ The following Nodes are now included in v3.2 of Invoke (as part of [PR-#3964](ht
 For the near future there is a backup copy of the 3.1.1 version can be found here in discord [messagelink-prompt_tools_311]([prompt_tools_311.py](https://discord.com/channels/1020123559063990373/1134084151386058803/1166313528114819132)).  **Warning** DO NOT use both versions at once as it will cause problems. 
 
 ## Usage
-## Usage
 <ins>Install:</ins><BR>
 Their are two options for installing these nodes. (Option 1 is the recomended option) 
 1. Git clone the repo into the `invokeai/nodes` directory. (**Recommended** - as it allows updating via a git pull)

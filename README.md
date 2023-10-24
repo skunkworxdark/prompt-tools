@@ -16,10 +16,24 @@ The following Nodes are now included in v3.2 of Invoke (as part of [PR-#3964](ht
 `Prompt Replace` has become `String Replace`<br>
 `Prompt Split Neg` has become `String Split Neg`<br>
 
-For the near future there is a backup copy of the 3.1.1 version before the move of some of the tools to core [prompt_tools_311.py](prompt_tools_311.py).  **Warning** DO NOT use both versions at once as it will cause problems. 
+For the near future there is a backup copy of the 3.1.1 version can be found here in discord [messagelink-prompt_tools_311]([prompt_tools_311.py](https://discord.com/channels/1020123559063990373/1134084151386058803/1166313528114819132)).  **Warning** DO NOT use both versions at once as it will cause problems. 
 
 ## Usage
-If you want to use these nodes then you will have to place the [prompt_tools.py](prompt_tools.py) file in the folder `".venv\Lib\site-packages\invokeai\app\invocations"`. 
+## Usage
+<ins>Install:</ins><BR>
+Their are two options for installing these nodes. (Option 1 is the recomended option) 
+1. Git clone the repo into the `invokeai/nodes` directory. (**Recommended** - as it allows updating via a git pull)
+    - open a command prompt/terminal in the invokeAI nodes directory ( or choose `8. Open the developer console` option from the invoke.bat then `cd nodes`)
+    - run `git clone [https://github.com/skunkworxdark/XYGrid_nodes.git](https://github.com/skunkworxdark/prompt-tools.git)`
+2. Manually download and place [prompt_tools.py](prompt_tools.py) & [__init__.py](__init__.py) in a sub folder in the `invokeai/nodes` folder. 
+
+Important Note: If you have used a previous version of these nodes (Pre Invoke 3.4) that where installed in the .env invocations directory. Then the existing images_to_grids.py file must be deleted from the invocations directory otherwise invoke will throw an error with duplicate nodes. Also note that some of these nodes have changed names and parameters so existing workflows will need to be remade. See included workflows for examples.
+
+<ins>Update:</ins><BR>
+Run a `git pull` from the `XYGrid_nodes` folder. Or run the `update.bat` or `update.sh` that is in the `invokeai/nodes/XYGrid_nodes` folder. If you installed manually then the only option is monitor the repo or discord channel and manually download and replace the file yourself.
+
+<ins>Remove:</ins><BR>
+Simply delete the `XYGrid_nodes` folder or you can rename it by adding and underscore `_XYGrid_nodes` and Invoke will ignore it.
 
 
 ## Discord Link

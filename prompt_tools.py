@@ -2,7 +2,6 @@
 
 import json
 import random
-import re
 from typing import Literal, Optional, Union
 
 from pydantic import BaseModel
@@ -286,7 +285,9 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
             if len(string) > 0:
                 strings.append(f'"{string}"')
                 numbers.append(number)
-        return StringOutput(value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})')
+        return StringOutput(
+            value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})'
+        )
 
 
 @invocation(
@@ -310,7 +311,8 @@ class CSVToIndexStringInvocation(BaseInvocation):
         description="Random Index?",
     )
     index: int = InputField(
-        default=0, description="zero based index into CSV array (note index will wrap around if out of bounds)"
+        default=0,
+        description="zero based index into CSV array (note index will wrap around if out of bounds)",
     )
 
     def invoke(self, context: InvocationContext) -> StringOutput:

@@ -38,7 +38,7 @@ There are two options to install the nodes:
 
 Run a `git pull` from the `prompt_tools` folder.
 
-Or run `update.bat` or `update.sh`.
+Or run `update.bat`(windows) or `update.sh`(linux).
 
 For manual installs, download and replace the files.
 
@@ -93,7 +93,7 @@ output: ("cow","Field","stream").and(0.5,1.2,0.5)
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/ce9120dd-b3fa-470e-ac29-b9acfb6e240f)
 
 ## CSV To Index String
-`CSV To Index String` - Takes a CSV string and and index and outputs a element from position index it as a string. If the index is out of range then it will wrap around. If the Random option is chosen the index will be chosen at random. 
+`CSV To Index String` - Takes a CSV string and and index and outputs the string from position index. If the index is out of range then it will wrap around. If the Random option is chosen the index will be chosen at random. 
 
 This node could be used in conjunction with the `String Join` or `String Replace` nodes to build compound prompts. 
 

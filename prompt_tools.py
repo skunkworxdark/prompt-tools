@@ -51,7 +51,7 @@ class PromptsToFileInvocation(BaseInvocation):
     )
 
     def invoke(self, context: InvocationContext) -> PromptsToFileInvocationOutput:
-        with open(self.file_path, "a" if self.append else "w") as f:
+        with open(self.file_path, "a" if self.append else "w", encoding="utf-8") as f:
             if isinstance(self.prompts, list):
                 for line in self.prompts:
                     f.write(line + "\n")

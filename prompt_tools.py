@@ -33,7 +33,7 @@ class PromptsToFileInvocationOutput(BaseInvocationOutput):
     title="Prompts To File",
     tags=["prompt", "file"],
     category="prompt",
-    version="1.0.0",
+    version="1.0.1",
 )
 class PromptsToFileInvocation(BaseInvocation):
     """Save prompts to a text file"""

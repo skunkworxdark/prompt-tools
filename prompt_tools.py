@@ -15,7 +15,6 @@ from invokeai.app.invocations.baseinvocation import (
     InvocationContext,
     OutputField,
     UIComponent,
-    UIType,
     invocation,
     invocation_output,
 )
@@ -130,7 +129,6 @@ class PTFieldsCollectInvocation(BaseInvocation):
     )
     scheduler: Optional[SAMPLER_NAME_VALUES] = InputField(
         description=FieldDescriptions.scheduler,
-        ui_type=UIType.Scheduler,
     )
 
     def invoke(self, context: InvocationContext) -> PTFieldsCollectOutput:
@@ -194,7 +192,6 @@ class PTFieldsExpandOutput(BaseInvocationOutput):
     )
     scheduler: SAMPLER_NAME_VALUES = OutputField(
         description=FieldDescriptions.scheduler,
-        ui_type=UIType.Scheduler,
     )
 
 

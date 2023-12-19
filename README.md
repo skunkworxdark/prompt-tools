@@ -32,23 +32,23 @@ There are two options to install the nodes:
     ```
 2. Manually download [prompt_tools.py](prompt_tools.py) & [__init__.py](__init__.py) then place them in a subfolder under `invokeai/nodes`. 
 
-**Important:** If you have a previous version of these nodes (pre Invoke 3.4) installed in the .env directory, delete the old `prompt_tools.py` to avoid errors. Workflows may need updating due to node changes.
+**Important:** If you have a previous version of these nodes (pre-Invoke 3.4) installed in the .env directory, delete the old `prompt_tools.py` to avoid errors. Workflows may need updating due to node changes.
 
 ### Update
 
 Run a `git pull` from the `prompt_tools` folder.
 
-Or run `update.bat`(windows) or `update.sh`(linux).
+Or run `update.bat`(windows) or `update.`sh`(Linux).
 
 For manual installs, download and replace the files.
 
 ### Remove:
-Delete the `prompt_tools` folder. Or rename to `_prompt_tools` so InvokeAI will ignore.
+Delete the `prompt_tools` folder. Or rename it to `_prompt_tools`` so InvokeAI will ignore it.
 
 ## ToDo
 - Test the new PTFields nodes
 - Add validation to nodes generally.
-- Support more fields like vae, models etc.
+- Support more fields like VAE, models etc.
 
 ## `Prompts To File`
 Saves prompts to a file, append or overwrite.
@@ -58,7 +58,7 @@ Inputs:
 - `Prompts` : Single prompt(string) or a collection
 - `Append` : Defaults to append. Disabled to overwrite.
 
-The workflow shows how you can use the `Collect` node make a collection of prompts during an iterate process.  This node graph goes a step further and places the negative inside [] like the old v2 way of doing things but has the benefit of keeping it to one line per prompt.
+The workflow shows how you can use the `Collect` node to make a collection of prompts during an iterate process.  This node graph goes a step further and places the negative inside [] like the old v2 way of doing things but has the benefit of keeping it to one line per prompt.
 
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/b483a0e9-bd98-44ef-8c0e-0dc1b884deee)
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/db82f094-ace7-4450-a418-31af64c01724)
@@ -93,11 +93,11 @@ output: ("cow","Field","stream").and(0.5,1.2,0.5)
 ![image](https://github.com/skunkworxdark/Prompt-tools-nodes/assets/21961335/ce9120dd-b3fa-470e-ac29-b9acfb6e240f)
 
 ## CSV To Index String
-`CSV To Index String` - Takes a CSV string and and index and outputs the string from position index. If the index is out of range then it will wrap around. If the Random option is chosen the index will be chosen at random. 
+`CSV To Index String` - Takes a CSV string and an index and outputs the string from the position index. If the index is out of range then it will wrap around. If the Random option is chosen the index will be chosen at random. 
 
 This node could be used in conjunction with the `String Join` or `String Replace` nodes to build compound prompts. 
 
-Or you could use it with a range node to step through the items in the csv.  As the index wraps around you could use input from an external random node without worrying about the range.
+Or you could use it with a range node to step through the items in the CSV.  As the index wraps around you could use input from an external random node without worrying about the range.
 
 ```
 Examples:

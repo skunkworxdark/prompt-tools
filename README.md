@@ -75,7 +75,7 @@ Note: Both of the PTfields nodes should be easy to change to add or remove field
 
 
 ## `Prompt Strength` and `Prompt Strengths Combine`
-`Prompt Strength` - Formats a prompt and strength into compel style weighted string. Multiples of these then can be fed into a collect node to create a collection of them and the used with the `Prompt Strengths Combine` node
+`Prompt Strength` - Formats a prompt and strength into compel style weighted string. Multiples of these then can be fed into a collect node to create a collection of them and then used with the `Prompt Strengths Combine` node
 ```
 e.g.
 prompt: A blues sphere

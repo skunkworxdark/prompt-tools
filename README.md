@@ -1,5 +1,5 @@
-# Prompt Tools nodes for InvokeAI (v3.4+)
-Discord Link :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803) .
+# `Prompt-Tools` nodes for InvokeAI
+Discord Link :- [Prompt-Tools](https://discord.com/channels/1020123559063990373/1134084151386058803)
 
 A set of InvokeAI nodes that add general prompt (string) manipulation tools.  Designed to accompany the PromptsFromFile node and other prompt generation nodes.
 
@@ -21,28 +21,34 @@ The following Nodes are now included in v3.2 of Invoke (as part of [PR-#3964](ht
 A backup of the v3.1.1 version remains in Discord: [messagelink-prompt_tools_311]([prompt_tools_311.py](https://discord.com/channels/1020123559063990373/1134084151386058803/1166313528114819132)).  **Warning** Do not use v3.1.1 and v3.4+ together as it will cause problems. 
 
 ## Usage
-<ins>Install:</ins><BR>
+### <ins>Install</ins><BR>
 There are two options to install the nodes:
 
-1. **Recommended**: Git clone into the `invokeai/nodes` directory. This allows updating via `git pull`.
+1. **Recommended**: Use Git to clone the repo into the `invokeai/nodes` directory. This allows updating via `git pull`.
 
     - In the InvokeAI nodes folder, run:
-    ```bash
-    git clone https://github.com/skunkworxdark/prompt-tools.git
-    ```
+
+        For Latest Invoke (4.0+):
+        ```bash
+        git clone https://github.com/skunkworxdark/prompt-tools.git
+        ```
+        For Invoke (3.5-3.7):
+        ```bash
+        git clone https://github.com/skunkworxdark/prompt-tools/tree/invoke-3.7
+        ```
+
 2. Manually download [prompt_tools.py](prompt_tools.py) & [__init__.py](__init__.py) then place them in a subfolder under `invokeai/nodes`. 
 
 **Important:** If you have a previous version of these nodes (pre-Invoke 3.4) installed in the .env directory, delete the old `prompt_tools.py` to avoid errors. Workflows may need updating due to node changes.
 
-### Update
-
+### <ins>Update</ins><BR>
 Run a `git pull` from the `prompt_tools` folder.
 
-Or run `update.bat`(windows) or `update.`sh`(Linux).
+Or run `update.bat`(windows) or `update.sh`(Linux).
 
 For manual installs, download and replace the files.
 
-### Remove:
+### <ins>Remove</ins><BR>
 Delete the `prompt_tools` folder. Or rename it to `_prompt_tools`` so InvokeAI will ignore it.
 
 ## ToDo

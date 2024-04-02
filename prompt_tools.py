@@ -11,16 +11,13 @@ from pydantic import BaseModel
 from invokeai.app.invocations.baseinvocation import (
     BaseInvocation,
     BaseInvocationOutput,
-    FieldDescriptions,
     Input,
-    InputField,
     InvocationContext,
-    OutputField,
-    UIComponent,
     invocation,
     invocation_output,
 )
-from invokeai.app.invocations.latent import SAMPLER_NAME_VALUES
+from invokeai.app.invocations.constants import SCHEDULER_NAME_VALUES
+from invokeai.app.invocations.fields import FieldDescriptions, InputField, OutputField, UIComponent
 from invokeai.app.invocations.primitives import StringOutput
 
 
@@ -79,18 +76,18 @@ class PromptsToFileInvocation(BaseInvocation):
 class PTFields(BaseModel):
     """Prompt Tools Fields for an image generated in InvokeAI."""
 
-    positive_prompt: str
-    positive_style_prompt: str
-    negative_prompt: str
-    negative_style_prompt: str
-    seed: int
-    width: int
-    height: int
-    steps: int
-    cfg_scale: float
-    denoising_start: float
-    denoising_end: float
-    scheduler: SAMPLER_NAME_VALUES
+    positive_prompt: Optional[str]
+    positive_style_prompt: Optional[str]
+    negative_prompt: Optional[str]
+    negative_style_prompt: Optional[str]
+    seed: Optional[int]
+    width: Optional[int]
+    height: Optional[int]
+    steps: Optional[int]
+    cfg_scale: Optional[float]
+    denoising_start: Optional[float]
+    denoising_end: Optional[float]
+    scheduler: SCHEDULER_NAME_VALUES
 
 
 @invocation_output("pt_fields_collect_output")
@@ -105,7 +102,7 @@ class PTFieldsCollectOutput(BaseInvocationOutput):
     title="PTFields Collect",
     tags=["prompt", "fields"],
     category="prompt",
-    version="1.0.0",
+    version="1.0.1",
 )
 class PTFieldsCollectInvocation(BaseInvocation):
     """Collect Prompt Tools Fields for an image generated in InvokeAI."""
@@ -143,7 +140,7 @@ class PTFieldsCollectInvocation(BaseInvocation):
     denoising_end: Optional[float] = InputField(
         description=FieldDescriptions.denoising_end,
     )
-    scheduler: Optional[SAMPLER_NAME_VALUES] = InputField(
+    scheduler: Optional[SCHEDULER_NAME_VALUES] = InputField(
         description=FieldDescriptions.scheduler,
     )
 
@@ -163,7 +160,7 @@ class PTFieldsCollectInvocation(BaseInvocation):
                     denoising_start=self.denoising_start,
                     denoising_end=self.denoising_end,
                     scheduler=self.scheduler,
-                ).dict()
+                ).model_dump()
             )
         )
         return PTFieldsCollectOutput(pt_fields=x)
@@ -206,7 +203,7 @@ class PTFieldsExpandOutput(BaseInvocationOutput):
     denoising_end: float = OutputField(
         description=FieldDescriptions.denoising_end,
     )
-    scheduler: SAMPLER_NAME_VALUES = OutputField(
+    scheduler: SCHEDULER_NAME_VALUES = OutputField(
         description=FieldDescriptions.scheduler,
     )
 
@@ -274,7 +271,7 @@ COMBINE_TYPE = Literal[".and", ".blend"]
     title="Prompt Strengths Combine",
     tags=["prompt", "combine"],
     category="prompt",
-    version="1.0.0",
+    version="1.0.1",
 )
 class PromptStrengthsCombineInvocation(BaseInvocation):
     """Takes a collection of prompt strength strings and converts it into a combined .and() or .blend() structure. Blank prompts are ignored"""
@@ -289,8 +286,8 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
     )
 
     def invoke(self, context: InvocationContext) -> StringOutput:
-        strings = []
-        numbers = []
+        strings: list[str] = []
+        numbers: list[float] = []
         for item in self.prompt_strengths:
             string, number = item.rsplit(")", 1)
             string = string[1:].strip()
@@ -298,9 +295,7 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
             if len(string) > 0:
                 strings.append(f'"{string}"')
                 numbers.append(number)
-        return StringOutput(
-            value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})'
-        )
+        return StringOutput(value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})')
 
 
 @invocation(

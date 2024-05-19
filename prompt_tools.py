@@ -4,6 +4,7 @@ import csv
 import io
 import json
 import random
+import re
 from typing import Literal, Optional, Union
 
 from pydantic import BaseModel
@@ -45,6 +46,60 @@ def list_to_csv(strings: list[str]) -> str:
         writer = csv.writer(output)
         writer.writerows(strings)
         return output.getvalue()
+
+
+def prompt_auto_and(s: str, max_length: int) -> str:
+    # This regex will match words, sequences within quotes, parentheses with numbers, and parentheses followed by a series of plus (+) or minus (-) signs
+    pattern_quotes = r'"[^"]*"'
+    pattern_parentheses_number = r"\([^)]*\)\d*\.?\d*"
+    pattern_parentheses_plus_minus = r"\([^)]*\)[+-]+"
+    pattern_parentheses = r"\([^)]*\)"
+    pattern_word = r"\S+"
+
+    # Compile all patterns into a single regex pattern
+    pattern = re.compile(
+        "|".join(
+            [
+                pattern_parentheses_plus_minus,
+                pattern_parentheses_number,
+                pattern_parentheses,
+                pattern_quotes,
+                pattern_word,
+            ]
+        )
+    )
+
+    words: list[str] = pattern.findall(s)
+
+    chunks: list[str] = []
+    current_chunk = []
+    current_length = 0
+
+    for word in words:
+        word_length = len(word)
+        chunk_length = len(current_chunk)
+        # If adding the new word exceeds the max_length, start a new chunk unless we have an empty chunk
+        if current_length + word_length + (chunk_length > 0) > max_length and chunk_length > 0:
+            chunks.append(" ".join(current_chunk))
+            current_chunk = [word]
+            current_length = word_length
+        else:
+            current_chunk.append(word)
+            current_length += word_length + (chunk_length > 1)
+
+    # Add the last chunk to the result if it's not empty
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+
+    # handle 1 or 0 chunks
+    if len(chunks) < 2:
+        return "" if not chunks else chunks[0]
+
+    # Escape double quotes in each chunk
+    escaped_chunks = [chunk.replace('"', '\\"') for chunk in chunks]
+    # Format the chunks as a single string in the specified format
+    formatted_chunks = ",".join(f'"{chunk}"' for chunk in escaped_chunks)
+    return f"({formatted_chunks}).and()"
 
 
 @invocation_output("prompt_to_file_output")
@@ -364,3 +419,24 @@ class StringsToCSVInvocation(BaseInvocation):
     def invoke(self, context: InvocationContext) -> StringOutput:
         output = list_to_csv(self.strings if isinstance(self.strings, list) else [self.strings])
         return StringOutput(value=output)
+
+
+@invocation(
+    "prompt_auto_and",
+    title="Prompt Auto .and()",
+    tags=["prompt", "and"],
+    category="prompt",
+    version="1.0.0",
+)
+class PromptAutoAndInvocation(BaseInvocation):
+    """Takes a prompt string then chunks it up into a .and() output if over the max length"""
+
+    prompt: str = InputField(
+        default="",
+        description="Prompt to auto .and()",
+        ui_component=UIComponent.Textarea,
+    )
+    max_length: int = InputField(default=200, gt=1, description="Maximum chunk length in characters")
+
+    def invoke(self, context: InvocationContext) -> StringOutput:
+        return StringOutput(value=prompt_auto_and(self.prompt, self.max_length))

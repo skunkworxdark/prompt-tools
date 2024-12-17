@@ -309,15 +309,33 @@ class PTFieldsExpandInvocation(BaseInvocation):
         )
 
 
+@invocation_output("prompt_strength_collection_output")
+class PromptStrengthOutput(BaseInvocationOutput):
+    """Base class for nodes that output a collection of images"""
+
+    collection: list[str] = OutputField(
+        description="Prompt strength collection",
+    )
+
+    value: str = OutputField(
+        description="Prompt strength",
+    )
+
+
 @invocation(
     "prompt_strength",
     title="Prompt Strength",
     tags=["prompt"],
     category="prompt",
-    version="1.0.0",
+    version="1.1.0",
 )
 class PromptStrengthInvocation(BaseInvocation):
     """Takes a prompt string and float strength and outputs a new string in the format of (prompt)strength"""
+
+    collection: list[str] = InputField(
+        default=[],
+        description="Collection of Prompt strengths",
+    )
 
     prompt: str = InputField(
         default="",
@@ -326,8 +344,10 @@ class PromptStrengthInvocation(BaseInvocation):
     )
     strength: float = InputField(default=1, gt=0, description="strength of the prompt")
 
-    def invoke(self, context: InvocationContext) -> StringOutput:
-        return StringOutput(value=f"({self.prompt}){self.strength}")
+    def invoke(self, context: InvocationContext) -> PromptStrengthOutput:
+        prompt_strength: str = f"({self.prompt}){self.strength}"
+        self.collection.append(prompt_strength)
+        return PromptStrengthOutput(value=prompt_strength, collection=self.collection)
 
 
 COMBINE_TYPE = Literal[".and", ".blend"]

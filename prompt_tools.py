@@ -286,7 +286,6 @@ class PTFieldsExpandInvocation(BaseInvocation):
     """Save Expand PTFields into individual items"""
 
     pt_fields: str = InputField(
-        default=None,
         description="PTFields in json Format",
     )
 
@@ -382,7 +381,7 @@ class PromptStrengthsCombineInvocation(BaseInvocation):
             if len(string) > 0:
                 strings.append(f'"{string}"')
                 numbers.append(number)
-        return StringOutput(value=f'({",".join(strings)}){self.combine_type}({",".join(map(str, numbers))})')
+        return StringOutput(value=f"({','.join(strings)}){self.combine_type}({','.join(map(str, numbers))})")
 
 
 @invocation(
